@@ -16,6 +16,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <sys/time.h>
+#include <stdio.h>
 
 # define WINDOW_WIDTH 32 * 32
 # define WINDOW_HEIGHT 32 * 16
@@ -38,11 +39,18 @@ typedef struct animation {
   int current;
 } t_animation ;
 
+typedef struct position {
+  int x ; 
+  int y ; 
+} t_position;
+
+
 typedef struct state {
   void *mlx_ptr;
   void *win_ptr;
   t_mlx_image *buffer;
   t_animation *animation;
+  t_position *main_caracter;
 } t_state;
 
 void	put_pixel_img(t_mlx_image img, unsigned int x, unsigned int y, int color)
@@ -96,7 +104,6 @@ void put_animation_to_image(t_mlx_image img , t_animation * animation , uint x ,
    if(animation->current > animation->length - 1)
      animation->current = 0;
 }
-
 
 
 void fill_pixel_img(t_mlx_image img , int color)
@@ -160,7 +167,7 @@ int	render_next_frame(void *global)
   fill_pixel_img(*g->buffer, 0xCACC95);
   debug_grid(*g->buffer, 0x9C9868);
 
-  put_animation_to_image(*g->buffer, g->animation, 0, 0);
+  put_animation_to_image(*g->buffer, g->animation, g->main_caracter->x, g->main_caracter->y);
   mlx_put_image_to_window(g->mlx_ptr, g->win_ptr, g->buffer->img, 0, 0);
   return 0;
 }
@@ -188,6 +195,37 @@ t_animation* load_sprite(void* mlx_ptr , char ** xpm , int length)
   return animation;
 }
 
+int on_key_up(int keycode, void *param)
+{
+  // printf("up : %d\n" , keycode);
+  return 0;
+}
+
+int on_key_down(int keycode, void *global)
+{
+  // up     122
+  // down   115
+  // left   113
+  // rigth  100
+  //
+  t_state *g = global;
+  int factor = 6;
+  if(keycode == 122)
+  {
+    g->main_caracter->y -= factor ;
+  } else if (keycode == 115)
+  {
+    g->main_caracter->y += factor ;
+  } else if (keycode == 113)
+  {
+    g->main_caracter->x -= factor ;
+  } else if(keycode == 100)
+  {
+    g->main_caracter->x += factor ;
+  }
+  printf("down : %d\n" , keycode);
+}
+
 int main(void)
 {
     void	*mlx_ptr;
@@ -197,7 +235,6 @@ int main(void)
     mlx_ptr = mlx_init();
     win_ptr = mlx_new_window(mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT, "- _ -");
 
-   
     t_mlx_image buffer;
     buffer.width = WINDOW_WIDTH;
     buffer.heigth = WINDOW_HEIGHT;
@@ -211,8 +248,16 @@ int main(void)
     // HERE
     char *path[] = {"./asset/xmp/idle01.xpm" , "./asset/xmp/idle02.xpm" , "./asset/xmp/idle03.xpm" , "./asset/xmp/idle04.xpm" , "./asset/xmp/idle05.xpm" , "./asset/xmp/idle06.xpm"};
     global.animation = load_sprite(mlx_ptr, path, 6);
+
+    t_position player;
+    player.x = 0;
+    player.y = 0;
+
+    global.main_caracter = &player;
     //
 
+    mlx_hook(win_ptr, 03 , 1L<<1 , on_key_up ,&global);
+    mlx_hook(win_ptr, 02 , 1L<<0 , on_key_down , &global);
     mlx_loop_hook(mlx_ptr , render_next_frame , &global);
     mlx_loop(mlx_ptr);
 
