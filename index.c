@@ -6,10 +6,11 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 13:15:29 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/05 10:20:18 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/05 12:01:56 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "smlx/smlx.h"
 #include "mlx/mlx.h"
 #include <stdint.h>
 #include <stdio.h>
@@ -20,23 +21,18 @@
 #define WINDOW_WIDTH 32 * 32
 #define WINDOW_HEIGHT 32 * 16
 
-typedef struct mlx_image {
-    void *img;
-    char *addr;
-    int bits_per_pixel;
-    int line_length;
-    int endian;
-    int heigth;
-    int width;
-} t_mlx_image;
+#define PLAYER_RUN_RIGHT "./asset/xmp/player/run_right1.xpm,./asset/xmp/player/run_right2.xpm,./asset/xmp/player/run_right3.xpm,./asset/xmp/player/run_right4.xpm,./asset/xmp/player/run_right5.xpm,./asset/xmp/player/run_right6.xpm"
 
-typedef struct animation {
-    t_mlx_image **frames;
-    int length;
-    int cdelay;
-    int delay;
-    int current;
-} t_animation;
+#define PLAYER_RUN_LEFT "./asset/xmp/player/run_left1.xpm,./asset/xmp/player/run_left2.xpm,./asset/xmp/player/run_left3.xpm,./asset/xmp/player/run_left4.xpm,./asset/xmp/player/run_left5.xpm./asset/xmp/player/run_left6.xpm"
+
+t_mlx_image *** load_all_frame(void *mlx_ptr)
+{
+  t_mlx_image ***frames = malloc(sizeof(t_mlx_image**) * 25);
+  
+  frames[0] = load_sprite(mlx_ptr, PLAYER_RUN_RIGHT, 6);
+
+  return frames;
+}
 
 typedef struct entity {
     int type;
@@ -54,75 +50,6 @@ typedef struct state {
     t_entity *main_caracter;
 } t_state;
 
-typedef struct maps {
-    int w;
-    int h;
-    t_entity **table;
-} t_maps;
-
-void put_pixel_img(t_mlx_image img, unsigned int x, unsigned int y,
-                   int color) {
-    char *dst;
-
-    if (color == 0xFF000000)
-        return;
-    if (x > img.width || y > img.heigth)
-        return;
-    // Fix
-    // This asume that the endian is 0
-    // This assune that bits_per_pixel is 32
-    dst = img.addr + (y * img.line_length + x * (img.bits_per_pixel / 8));
-    *(unsigned int *) dst = color;
-}
-
-unsigned int get_pixel_img(t_mlx_image img, int x, int y) {
-    return (*(unsigned int *) ((img.addr + (y * img.line_length) + (x
-                                                                    * img.bits_per_pixel / 8))));
-}
-
-void put_img_to_img(t_mlx_image dst, t_mlx_image src, int x, int y) {
-    int i;
-    int j;
-
-    i = 0;
-    j = 0;
-    while (i < src.width) {
-        j = 0;
-        while (j < src.heigth) {
-            put_pixel_img(dst, x + i, y + j, get_pixel_img(src, i, j));
-            j++;
-        }
-        i++;
-    }
-}
-
-void put_animation_to_image(t_mlx_image img, t_animation *animation, uint x,
-                            uint y) {
-    put_img_to_img(img, *(animation->frames[animation->current]), x, y);
-    animation->cdelay--;
-    if (animation->cdelay <= 0) {
-        animation->current++;
-        animation->cdelay = animation->delay;
-    }
-    if (animation->current > animation->length - 1)
-        animation->current = 0;
-}
-
-void fill_pixel_img(t_mlx_image img, int color) {
-    int y;
-    int x;
-
-    y = 0;
-    x = 0;
-    while (y < img.heigth) {
-        x = 0;
-        while (x < img.width) {
-            put_pixel_img(img, x, y, color);
-            x++;
-        }
-        y++;
-    }
-}
 
 void debug_grid(t_mlx_image img, int color) {
     int y;
@@ -181,30 +108,6 @@ int render_next_frame(void *global) {
     return (0);
 }
 
-t_animation *load_sprite(void *mlx_ptr, char **xpm, int length) {
-    t_animation *animation;
-    t_mlx_image **frames;
-    t_mlx_image *image;
-
-    animation = malloc(sizeof(t_animation));
-    animation->delay = 6;
-    animation->cdelay = 0;
-    animation->current = 0;
-    animation->length = length;
-    frames = malloc(sizeof(t_mlx_image) * length);
-    while (animation->current < animation->length) {
-        image = malloc(sizeof(t_mlx_image));
-        image->img = mlx_xpm_file_to_image(mlx_ptr, xpm[animation->current],
-                                           &image->width, &image->heigth);
-        image->addr = mlx_get_data_addr(image->img, &image->bits_per_pixel,
-                                        &image->line_length, &image->endian);
-        frames[animation->current] = image;
-        animation->current++;
-    }
-    animation->frames = frames;
-    animation->current = 0;
-    return (animation);
-}
 
 int on_key_up(int keycode, void *global) {
     t_state *g;
@@ -243,63 +146,6 @@ int main(void) {
     t_state global;
     t_mlx_image buffer;
 
-    t_maps worlds;
-    worlds.h = 16;
-    worlds.w = 32;
-
-    int _i[16][32] = {
-        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-    };
-
-    char *run_rigth[] = {
-        "./asset/xmp/player/run_right1.xpm",
-        "./asset/xmp/player/run_right2.xpm",
-        "./asset/xmp/player/run_right3.xpm",
-        "./asset/xmp/player/run_right4.xpm",
-        "./asset/xmp/player/run_right5.xpm",
-        "./asset/xmp/player/run_right6.xpm"
-    };
-    char *run_left[] = {
-        "./asset/xmp/player/run_left1.xpm",
-        "./asset/xmp/player/run_left2.xpm",
-        "./asset/xmp/player/run_left3.xpm",
-        "./asset/xmp/player/run_left4.xpm",
-        "./asset/xmp/player/run_left5.xpm",
-        "./asset/xmp/player/run_left6.xpm"
-    };
-    char *run_top[] = {
-        "./asset/xmp/player/run_top1.xpm",
-        "./asset/xmp/player/run_top2.xpm",
-        "./asset/xmp/player/run_top3.xpm",
-        "./asset/xmp/player/run_top4.xpm",
-        "./asset/xmp/player/run_top5.xpm",
-        "./asset/xmp/player/run_top6.xpm"
-    };
-    char *run_bottom[] = {
-        "./asset/xmp/player/run_bottom1.xpm",
-        "./asset/xmp/player/run_bottom2.xpm",
-        "./asset/xmp/player/run_bottom3.xpm",
-        "./asset/xmp/player/run_bottom4.xpm",
-        "./asset/xmp/player/run_bottom5.xpm",
-        "./asset/xmp/player/run_bottom6.xpm"
-    };
-    t_entity player;
-
     mlx_ptr = mlx_init();
     win_ptr = mlx_new_window(mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT, "- _ -");
     buffer.width = WINDOW_WIDTH;
@@ -310,47 +156,7 @@ int main(void) {
     global.win_ptr = win_ptr;
     global.mlx_ptr = mlx_ptr;
     global.buffer = &buffer;
-    // HERE
-    char *idle_rigth[] = {
-        "./asset/xmp/player/idle_right1.xpm",
-        "./asset/xmp/player/idle_right2.xpm",
-        "./asset/xmp/player/idle_right3.xpm",
-        "./asset/xmp/player/idle_right4.xpm",
-    };
-    char *idle_left[] = {
-        "./asset/xmp/player/idle_left1.xpm",
-        "./asset/xmp/player/idle_left2.xpm",
-        "./asset/xmp/player/idle_left3.xpm",
-        "./asset/xmp/player/idle_left4.xpm",
-    };
-    char *idle_top[] = {
-        "./asset/xmp/player/idle_top1.xpm",
-        "./asset/xmp/player/idle_top2.xpm",
-        "./asset/xmp/player/idle_top3.xpm",
-        "./asset/xmp/player/idle_top4.xpm",
-    };
-    char *idle_bottom[] = {
-        "./asset/xmp/player/idle_bottom1.xpm",
-        "./asset/xmp/player/idle_bottom2.xpm",
-        "./asset/xmp/player/idle_bottom3.xpm",
-        "./asset/xmp/player/idle_bottom4.xpm",
-    };
-
-    player.x = 0;
-    player.y = 0;
-    player.direction = 2;
-    player.idle = 0;
-    player.animation = calloc(sizeof(t_animation *), 10);
-    global.main_caracter = &player;
-    global.main_caracter->animation[0] = load_sprite(mlx_ptr, run_top, 6);
-    global.main_caracter->animation[1] = load_sprite(mlx_ptr, run_bottom, 6);
-    global.main_caracter->animation[2] = load_sprite(mlx_ptr, run_left, 6);
-    global.main_caracter->animation[3] = load_sprite(mlx_ptr, run_rigth, 6);
-    global.main_caracter->animation[4] = load_sprite(mlx_ptr, idle_top, 4);
-    global.main_caracter->animation[5] = load_sprite(mlx_ptr, idle_bottom, 4);
-    global.main_caracter->animation[6] = load_sprite(mlx_ptr, idle_left, 4);
-    global.main_caracter->animation[7] = load_sprite(mlx_ptr, idle_rigth, 4);
-
+   
     mlx_hook(win_ptr, 03, 1L << 1, on_key_up, &global);
     mlx_hook(win_ptr, 02, 1L << 0, on_key_down, &global);
     mlx_loop_hook(mlx_ptr, render_next_frame, &global);
