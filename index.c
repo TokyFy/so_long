@@ -6,12 +6,12 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 13:15:29 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/05 12:01:56 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/05 13:08:42 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "smlx/smlx.h"
 #include "mlx/mlx.h"
+#include "smlx/smlx.h"
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -21,17 +21,43 @@
 #define WINDOW_WIDTH 32 * 32
 #define WINDOW_HEIGHT 32 * 16
 
-#define PLAYER_RUN_RIGHT "./asset/xmp/player/run_right1.xpm,./asset/xmp/player/run_right2.xpm,./asset/xmp/player/run_right3.xpm,./asset/xmp/player/run_right4.xpm,./asset/xmp/player/run_right5.xpm,./asset/xmp/player/run_right6.xpm"
+#define PLAYER_RUN_RIGHT "./asset/xmp/player/run_right1.xpm,"\
+						 "./asset/xmp/player/run_right2.xpm,"\
+						 "./asset/xmp/player/run_right3.xpm,"\
+						 "./asset/xmp/player/run_right4.xpm,"\
+						 "./asset/xmp/player/run_right5.xpm,"\
+						 "./asset/xmp/player/run_right6.xpm"
 
-#define PLAYER_RUN_LEFT "./asset/xmp/player/run_left1.xpm,./asset/xmp/player/run_left2.xpm,./asset/xmp/player/run_left3.xpm,./asset/xmp/player/run_left4.xpm,./asset/xmp/player/run_left5.xpm./asset/xmp/player/run_left6.xpm"
+#define PLAYER_RUN_LEFT "./asset/xmp/player/run_left1.xpm,"\
+						"./asset/xmp/player/run_left2.xpm,"\
+						"./asset/xmp/player/run_left3.xpm,"\
+						"./asset/xmp/player/run_left4.xpm,"\
+						"./asset/xmp/player/run_left5.xpm."\
+						"/asset/xmp/player/run_left6.xpm"
 
-t_mlx_image *** load_all_frame(void *mlx_ptr)
-{
-  t_mlx_image ***frames = malloc(sizeof(t_mlx_image**) * 25);
-  
-  frames[0] = load_sprite(mlx_ptr, PLAYER_RUN_RIGHT, 6);
+#define PLAYER_RUN_TOP "./asset/xmp/player/run_top1.xpm,"\
+                        "./asset/xmp/player/run_top2.xpm,"\
+                        "./asset/xmp/player/run_top3.xpm,"\
+                        "./asset/xmp/player/run_top4.xpm,"\
+                        "./asset/xmp/player/run_top5.xpm."\
+                        "/asset/xmp/player/run_top6.xpm"
 
-  return frames;
+#define PLAYER_RUN_BOTTOM "./asset/xmp/player/run_bottom1.xpm,"\
+                        "./asset/xmp/player/run_bottom2.xpm,"\
+                        "./asset/xmp/player/run_bottom3.xpm,"\
+                        "./asset/xmp/player/run_bottom4.xpm,"\
+                        "./asset/xmp/player/run_bottom5.xpm."\
+                        "/asset/xmp/player/run_bottom6.xpm"
+
+t_mlx_image ***load_all_frame(void *mlx_ptr) {
+    t_mlx_image ***frames;
+
+    frames = malloc(sizeof(t_mlx_image **) * 25);
+    frames[0] = load_sprite(mlx_ptr, PLAYER_RUN_RIGHT, 6);
+    frames[1] = load_sprite(mlx_ptr, PLAYER_RUN_LEFT, 6);
+    frames[2] = load_sprite(mlx_ptr, PLAYER_RUN_TOP, 6);
+    frames[3] = load_sprite(mlx_ptr, PLAYER_RUN_BOTTOM, 6);
+    return (frames);
 }
 
 typedef struct entity {
@@ -48,8 +74,8 @@ typedef struct state {
     void *win_ptr;
     t_mlx_image *buffer;
     t_entity *main_caracter;
+    t_mlx_image ***frame;
 } t_state;
-
 
 void debug_grid(t_mlx_image img, int color) {
     int y;
@@ -108,7 +134,6 @@ int render_next_frame(void *global) {
     return (0);
 }
 
-
 int on_key_up(int keycode, void *global) {
     t_state *g;
 
@@ -156,7 +181,8 @@ int main(void) {
     global.win_ptr = win_ptr;
     global.mlx_ptr = mlx_ptr;
     global.buffer = &buffer;
-   
+    global.frame = load_all_frame(mlx_ptr);
+
     mlx_hook(win_ptr, 03, 1L << 1, on_key_up, &global);
     mlx_hook(win_ptr, 02, 1L << 0, on_key_down, &global);
     mlx_loop_hook(mlx_ptr, render_next_frame, &global);
