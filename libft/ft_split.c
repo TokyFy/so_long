@@ -64,8 +64,8 @@ void ft_free_split(char **strs)
   char **i = strs;
 
   while (*i) {
-    free(i);
-    i++;
+  	free(*i);
+  	i++;
   }
 
   free(strs);

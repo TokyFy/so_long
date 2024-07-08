@@ -32,22 +32,22 @@
 						"./asset/xmp/player/run_left2.xpm,"\
 						"./asset/xmp/player/run_left3.xpm,"\
 						"./asset/xmp/player/run_left4.xpm,"\
-						"./asset/xmp/player/run_left5.xpm."\
-						"/asset/xmp/player/run_left6.xpm"
+						"./asset/xmp/player/run_left5.xpm,"\
+						"./asset/xmp/player/run_left6.xpm"
 
 #define PLAYER_RUN_TOP "./asset/xmp/player/run_top1.xpm,"\
                         "./asset/xmp/player/run_top2.xpm,"\
                         "./asset/xmp/player/run_top3.xpm,"\
                         "./asset/xmp/player/run_top4.xpm,"\
-                        "./asset/xmp/player/run_top5.xpm."\
-                        "/asset/xmp/player/run_top6.xpm"
+                        "./asset/xmp/player/run_top5.xpm,"\
+                        "./asset/xmp/player/run_top6.xpm"
 
 #define PLAYER_RUN_BOTTOM "./asset/xmp/player/run_bottom1.xpm,"\
                         "./asset/xmp/player/run_bottom2.xpm,"\
                         "./asset/xmp/player/run_bottom3.xpm,"\
                         "./asset/xmp/player/run_bottom4.xpm,"\
-                        "./asset/xmp/player/run_bottom5.xpm."\
-                        "/asset/xmp/player/run_bottom6.xpm"
+                        "./asset/xmp/player/run_bottom5.xpm,"\
+                        "./asset/xmp/player/run_bottom6.xpm"
 
 t_mlx_image ***load_all_frame(void *mlx_ptr) {
     t_mlx_image ***frames;
@@ -186,14 +186,18 @@ int main(void) {
     t_entity player;
     player.x = 0;
     player.y = 0;
-    player.direction = 0;
+    player.direction = 1;
+    player.idle = 0;
 
-    t_animation player_animation;
-    player_animation.cdelay = 0;
-    player_animation.delay = 20;
-    player_animation.frames = global.frame[0];
-    player_animation.length = 6;
-    player_animation.cdelay = 0;
+
+    player.animation = malloc(sizeof(t_animation) * 10);
+    player.animation[0] = init_animation(global.frame[0] , 20 , 6);
+    player.animation[0] = init_animation(global.frame[1] , 20 , 6);
+    player.animation[0] = init_animation(global.frame[2] , 20 , 6);
+    player.animation[0] = init_animation(global.frame[3] , 20 , 6);
+
+    global.main_caracter = &player;
+
 
     mlx_hook(win_ptr, 03, 1L << 1, on_key_up, &global);
     mlx_hook(win_ptr, 02, 1L << 0, on_key_down, &global);
