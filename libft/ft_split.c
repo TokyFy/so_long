@@ -6,13 +6,11 @@
 /*   By: franaivo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 08:47:07 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/05 11:23:04 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/08 10:20:59 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <cstdlib>
-#include <stdlib.h>
 
 static int	word_count(const char *str, char c);
 static char	*fill_word(const char *str, int start, int end);

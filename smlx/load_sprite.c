@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   load_sprite.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: franaivo <franaivo@student.42antananarivo  +#+  +:+       +#+        */
+/*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/05 10:37:15 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/05 11:55:14 by franaivo         ###   ########.fr       */
+/*   Created: 2024/07/05 11:55:14 by franaivo          #+#    #+#             */
+/*   Updated: 2024/07/08 13:22:14 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "smlx.h"
-
-
+#include <stdlib.h>
 
 t_mlx_image **load_sprite(void *mlx_ptr, char *xpm, int length) {
     t_mlx_image **frames;
@@ -24,8 +24,8 @@ t_mlx_image **load_sprite(void *mlx_ptr, char *xpm, int length) {
         image->img = mlx_xpm_file_to_image(mlx_ptr, xpms[i], &image->width, &image->heigth);
         image->addr = mlx_get_data_addr(image->img, &image->bits_per_pixel, &image->line_length, &image->endian);
         frames[i] = image;
+		i++;
     }
-    
-    ft_free_split(xpms);
+    //ft_free_split(xpms);
     return (frames);
 }

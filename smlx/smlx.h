@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   smlx.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/05 11:55:59 by franaivo          #+#    #+#             */
+/*   Updated: 2024/07/05 11:55:59 by franaivo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SMLX_H
 #define SMLX_H
 
 #include "../libft/libft.h"
 #include "../mlx/mlx.h"
-#include <stdlib.h>
 
 #define uint unsigned int
 

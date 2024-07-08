@@ -6,7 +6,7 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 13:15:29 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/05 13:08:42 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/08 10:24:01 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,18 @@ int main(void) {
     global.mlx_ptr = mlx_ptr;
     global.buffer = &buffer;
     global.frame = load_all_frame(mlx_ptr);
+
+    t_entity player;
+    player.x = 0;
+    player.y = 0;
+    player.direction = 0;
+
+    t_animation player_animation;
+    player_animation.cdelay = 0;
+    player_animation.delay = 20;
+    player_animation.frames = global.frame[0];
+    player_animation.length = 6;
+    player_animation.cdelay = 0;
 
     mlx_hook(win_ptr, 03, 1L << 1, on_key_up, &global);
     mlx_hook(win_ptr, 02, 1L << 0, on_key_down, &global);

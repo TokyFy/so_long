@@ -2,3 +2,5 @@ a.out
 mlx/*
 mlx
 .idea
+*.o
+*.a

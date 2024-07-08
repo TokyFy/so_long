@@ -6,12 +6,14 @@
 /*   By: franaivo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 13:23:43 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/05 11:23:43 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/08 10:22:01 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
+
+#include <stdlib.h>
 
 typedef unsigned long	t_size_t;
 
