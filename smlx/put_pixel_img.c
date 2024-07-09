@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_pixel_img.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: franaivo <franaivo@student.42antananarivo  +#+  +:+       +#+        */
+/*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/05 10:28:15 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/05 10:29:21 by franaivo         ###   ########.fr       */
+/*   Created: 2024/07/05 10:29:21 by franaivo          #+#    #+#             */
+/*   Updated: 2024/07/09 13:59:08 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
