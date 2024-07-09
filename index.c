@@ -69,6 +69,15 @@
                             "./asset/xmp/player/idle_bottom3.xpm,"\
                             "./asset/xmp/player/idle_bottom4.xpm"
 
+#define WALL_LEFT ""
+#define WALL_TOP ""
+#define WALL_BOTTOM ""
+#define WALL_TOP ""
+#define WALL_CORNER_TOP_LEFT ""
+#define WALL_CORNER_BOTTOM_LEFT ""
+#define WALL_CORNER_TOP_RIGHT ""
+#define WALL_CORNER_BOTTOM_RIGHT ""
+
 
 t_mlx_image ***load_all_frame(void *mlx_ptr) {
     t_mlx_image ***frames;
@@ -224,16 +233,16 @@ int on_key_down(int keycode, void *global) {
     int x = g->main_caracter->x;
     int y = g->main_caracter->y;
 
-    if (keycode == 119) {
+    if (keycode == 119 || keycode == 122) {
         g->main_caracter->direction = 1;
         y = g->main_caracter->y - factor;
     } else if (keycode == 115) {
         g->main_caracter->direction = 2;
         y = g->main_caracter->y + factor;
-    } else if (keycode == 97) {
+    } else if (keycode == 97 || keycode == 113) {
         g->main_caracter->direction = 3;
         x = g->main_caracter->x - factor;
-    } else if (keycode == 100) {
+    } else if (keycode == 100){
         g->main_caracter->direction = 4;
         x = g->main_caracter->x + factor;
     }
@@ -266,9 +275,9 @@ int main(void) {
         {1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
