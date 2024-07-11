@@ -92,6 +92,26 @@
 #define GROUND_1 "./asset/xmp/ground/ground_1.xpm"
 #define GROUND_2 "./asset/xmp/ground/ground_2.xpm"
 
+#define COIN_1 "./asset/xmp/props/key1.xpm," \
+                 "./asset/xmp/props/key2.xpm," \
+                 "./asset/xmp/props/key3.xpm," \
+                 "./asset/xmp/props/key4.xpm"
+
+#define COIN_2 "./asset/xmp/props/potion1.xpm," \
+                "./asset/xmp/props/potion2.xpm," \
+                "./asset/xmp/props/potion3.xpm," \
+                "./asset/xmp/props/potion4.xpm"
+
+#define COIN_3 "./asset/xmp/props/heart1.xpm," \
+                "./asset/xmp/props/heart2.xpm," \
+                "./asset/xmp/props/heart3.xpm," \
+                "./asset/xmp/props/heart4.xpm"
+
+#define COIN_4 "./asset/xmp/props/food1.xpm," \
+                "./asset/xmp/props/food2.xpm," \
+                "./asset/xmp/props/food3.xpm," \
+                "./asset/xmp/props/food4.xpm"
+
 #define TEMPORARY_OBSTACLE "./asset/xmp/wall.xpm"
 
 
@@ -130,6 +150,11 @@ t_mlx_image ***load_all_frame(void *mlx_ptr) {
 
     frames[25] = load_sprite(mlx_ptr, GROUND_1, 1);
     frames[26] = load_sprite(mlx_ptr, GROUND_2, 1);
+
+    frames[27] = load_sprite(mlx_ptr, COIN_1, 4);
+    frames[28] = load_sprite(mlx_ptr, COIN_2, 4);
+    frames[29] = load_sprite(mlx_ptr, COIN_3, 4);
+    frames[30] = load_sprite(mlx_ptr, COIN_4, 4);
 
     return (frames);
 }
@@ -203,21 +228,12 @@ void render_maps(t_state *global) {
         j = 0;
         while (j < global->worlds->w) {
             t_entity *entity = global->worlds->table[i][j];
-            put_animation_to_image(*global->buffer, entity->animation[0], entity->x * 32, entity->y * 32);
+            if (entity->type != -1)
+                put_animation_to_image(*global->buffer, entity->animation[0], entity->x * 32, entity->y * 32);
             j++;
         }
         i++;
     }
-
-    // while (i < global->worlds->h) {
-    //     j = 0;
-    //     while (j < global->worlds->w) {
-    //         if (global->worlds->table[i][j]->type == 1)
-    //             put_img_to_img(*global->buffer, wall, j * 32, i * 32);
-    //         j++;
-    //     }
-    //     i++;
-    // }
 }
 
 int render_next_frame(void *global) {
@@ -227,7 +243,7 @@ int render_next_frame(void *global) {
     if (timestamp_in_ms() - updated_at < (uint64_t) (1000 / 60))
         return (0);
     updated_at = timestamp_in_ms();
-    fill_pixel_img(*g->buffer, 0xCACC95);
+    fill_pixel_img(*g->buffer, 0xD4D29B);
     // debug_grid(*g->buffer, 0x9C9868);
     render_maps(global);
 
@@ -254,7 +270,7 @@ int on_key_up(int keycode, void *global) {
 
 int check_collision(t_state *global, int x, int y) {
     // Calculate the top-left corner of the player in grid coordinates
-    int x1 = (x + 12) / 32 ;
+    int x1 = (x + 12) / 32;
     int y1 = (y) / 32;
     // Calculate the bottom-right corner of the player in grid coordinates
     int x2 = (x + 31 - 12) / 32;
@@ -267,6 +283,26 @@ int check_collision(t_state *global, int x, int y) {
         global->worlds->table[y2][x2]->type == 1) {
         return 0; // Collision detected
     }
+
+    if (global->worlds->table[y1][x1]->type == 2 ||
+        global->worlds->table[y1][x2]->type == 2 ||
+        global->worlds->table[y2][x1]->type == 2 ||
+        global->worlds->table[y2][x2]->type == 2) {
+        if (global->worlds->table[y1][x1]->type == 2)
+            global->worlds->table[y1][x1]->type = -1;
+
+        if (global->worlds->table[y1][x2]->type == 2)
+            global->worlds->table[y1][x2]->type = -1;
+
+        if (global->worlds->table[y2][x1]->type == 2)
+            global->worlds->table[y2][x1]->type = -1;
+
+        if (global->worlds->table[y2][x2]->type == 2)
+            global->worlds->table[y2][x2]->type = -1;
+
+        return 1; // Collision detected
+    }
+
 
     return 1; // No collision
 }
@@ -338,14 +374,22 @@ void init_static_entity(t_state *global, t_entity *entity) {
         }
     }
 
-    if(entity->type == 0) {
-        animations[0] = init_animation(global->frame[26 - (generateRandomNumber(1,9) == 5)] , 60 , 1);
+    if (entity->type == 0) {
+        animations[0] = init_animation(global->frame[26 - (generateRandomNumber(1, 9) == 5)], 60, 1);
+    }
+
+    if (entity->type == 2) {
+        animations[0] = init_animation(global->frame[27 + generateRandomNumber(0, 3)], generateRandomNumber(8, 12), 4);
     }
 
     entity->direction = 0;
     entity->idle = 1;
     entity->c_animation = 0;
     entity->animation = animations;
+}
+
+void init_maps(t_state *global) {
+    return;
 }
 
 int main(void) {
@@ -363,19 +407,19 @@ int main(void) {
     int _i[16][32] = {
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-        {1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1, 1},
+        {1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 2, 2, 2, 0, 1},
+        {1, 0, 0, 0, 1, 1, 0, 0, 0, 2, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 2, 0, 0, 1},
+        {1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 1, 1, 0, 0, 0, 0, 0, 0, 2, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1},
         {1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1},
         {1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1},
-        {1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1},
+        {1, 0, 0, 2, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 1},
+        {1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 2, 0, 0, 0, 1, 1, 2, 2, 1, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 1},
+        {1, 0, 2, 1, 1, 1, 0, 0, 0, 0, 1, 1, 2, 0, 0, 0, 1, 1, 2, 2, 1, 1, 0, 0, 0, 0, 0, 0, 2, 1, 1, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 2, 1, 1, 1, 1},
+        {1, 0, 2, 0, 2, 0, 2, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1},
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
     };
 
