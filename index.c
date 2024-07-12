@@ -389,20 +389,9 @@ void init_static_entity(t_state *global, t_entity *entity) {
 }
 
 void init_maps(t_state *global) {
-    return;
-}
-
-int main(void) {
-    void *mlx_ptr;
-    void *win_ptr;
-    t_state global;
-    t_mlx_image buffer;
-
-    t_maps worlds;
-    worlds.h = 16;
-    worlds.w = 32;
-
-    srand(time(NULL));
+    t_maps *worlds = malloc(sizeof(t_maps));
+    worlds->h = 16;
+    worlds->w = 32;
 
     int _i[16][32] = {
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -424,52 +413,58 @@ int main(void) {
     };
 
 
-    worlds.table = malloc(sizeof(t_entity *) * 16);
+    worlds->table = malloc(sizeof(t_entity *) * 16);
+    global->worlds = worlds;
 
     int i = 0;
     int j = 0;
 
-
-    // initialise _i to entity table
-
-    int scale = 32;
-
-    mlx_ptr = mlx_init();
-    win_ptr = mlx_new_window(mlx_ptr, worlds.w * scale, worlds.h * scale, "- _ -");
-    buffer.width = worlds.w * scale;
-    buffer.heigth = worlds.h * scale;
-    buffer.img = mlx_new_image(mlx_ptr, worlds.w * scale, worlds.h * scale);
-    buffer.addr = mlx_get_data_addr(buffer.img, &buffer.bits_per_pixel,
-                                    &buffer.line_length, &buffer.endian);
-
-    global.win_ptr = win_ptr;
-    global.mlx_ptr = mlx_ptr;
-    global.buffer = &buffer;
-    global.worlds = &worlds;
-
-    global.frame = load_all_frame(mlx_ptr);
     while (i < 16) {
-        worlds.table[i] = malloc(sizeof(t_entity *) * 32);
+        worlds->table[i] = malloc(sizeof(t_entity *) * 32);
         j = 0;
         while (j < 32) {
-            worlds.table[i][j] = malloc(sizeof(t_entity));
-            worlds.table[i][j]->type = _i[i][j];
-            worlds.table[i][j]->x = j;
-            worlds.table[i][j]->y = i;
+            worlds->table[i][j] = malloc(sizeof(t_entity));
+            worlds->table[i][j]->type = _i[i][j];
+            worlds->table[i][j]->x = j;
+            worlds->table[i][j]->y = i;
 
-            init_static_entity(&global, worlds.table[i][j]);
+            init_static_entity(global, worlds->table[i][j]);
             j++;
         }
         i++;
     }
+}
 
+int main(void) {
+    void *mlx_ptr;
+    void *win_ptr;
+    t_state global;
+    t_mlx_image buffer;
+
+    srand(time(NULL));
+    int scale = 32;
+
+    mlx_ptr = mlx_init();
+    global.mlx_ptr = mlx_ptr;
+
+    global.frame = load_all_frame(mlx_ptr);
+    init_maps(&global);
+
+    win_ptr = mlx_new_window(mlx_ptr, global.worlds->w * scale, global.worlds->h * scale, "- _ -");
+    global.win_ptr = win_ptr;
+
+    buffer.width = global.worlds->w * scale;
+    buffer.heigth = global.worlds->h * scale;
+    buffer.img = mlx_new_image(mlx_ptr, global.worlds->w * scale, global.worlds->h * scale);
+    buffer.addr = mlx_get_data_addr(buffer.img, &buffer.bits_per_pixel,
+                                    &buffer.line_length, &buffer.endian);
+    global.buffer = &buffer;
 
     t_entity player;
     player.x = 32;
     player.y = 32;
     player.direction = 1;
     player.idle = 1;
-
 
     player.animation = malloc(sizeof(t_animation) * 10);
     player.animation[0] = init_animation(global.frame[0], 8, 6);
