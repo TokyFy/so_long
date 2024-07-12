@@ -6,19 +6,18 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 13:15:29 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/10 15:07:01 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/12 14:08:09 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mlx/mlx.h"
+#include "so_long.h"
 #include "smlx/smlx.h"
 #include <stdint.h>
 #include <stdlib.h>
 #include <sys/time.h>
 #include <time.h>
 
-#define WINDOW_WIDTH 32 * 32
-#define WINDOW_HEIGHT 32 * 16
 
 #define PLAYER_RUN_RIGHT "./asset/xmp/player/run_right1.xpm,"\
 						 "./asset/xmp/player/run_right2.xpm,"\
@@ -158,32 +157,6 @@ t_mlx_image ***load_all_frame(void *mlx_ptr) {
 
     return (frames);
 }
-
-typedef struct entity {
-    int type;
-    int x;
-    int y;
-    int idle;
-    int direction;
-    t_animation **animation;
-    int c_animation;
-} t_entity;
-
-typedef struct maps {
-    int w;
-    int h;
-    t_entity ***table;
-} t_maps;
-
-typedef struct state {
-    void *mlx_ptr;
-    void *win_ptr;
-    t_mlx_image *buffer;
-    t_entity *main_caracter;
-    t_mlx_image ***frame;
-    t_maps *worlds;
-} t_state;
-
 void debug_grid(t_mlx_image img, int color) {
     int y;
     int x;
@@ -217,10 +190,7 @@ uint64_t timestamp_in_ms(void) {
 }
 
 void render_maps(t_state *global) {
-    t_mlx_image wall;
-    wall.img = mlx_xpm_file_to_image(global->mlx_ptr, "./asset/xmp/wall.xpm", &wall.width, &wall.heigth);
-    wall.addr = mlx_get_data_addr(wall.img, &wall.bits_per_pixel, &wall.line_length, &wall.endian);
-
+   
     int i = 0;
     int j = 0;
 
@@ -244,7 +214,6 @@ int render_next_frame(void *global) {
         return (0);
     updated_at = timestamp_in_ms();
     fill_pixel_img(*g->buffer, 0xD4D29B);
-    // debug_grid(*g->buffer, 0x9C9868);
     render_maps(global);
 
     if (g->main_caracter->idle) {
@@ -256,6 +225,7 @@ int render_next_frame(void *global) {
                                g->main_caracter->animation[g->main_caracter->direction - 1],
                                g->main_caracter->x, g->main_caracter->y);
     }
+    // debug_grid(*g->buffer, 0x9C9868);
     mlx_put_image_to_window(g->mlx_ptr, g->win_ptr, g->buffer->img, 0, 0);
     return (0);
 }
@@ -390,26 +360,15 @@ void init_static_entity(t_state *global, t_entity *entity) {
 
 void init_maps(t_state *global) {
     t_maps *worlds = malloc(sizeof(t_maps));
-    worlds->h = 16;
-    worlds->w = 32;
+    worlds->h = 5;
+    worlds->w = 11;
 
-    int _i[16][32] = {
-        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1, 1},
-        {1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 2, 2, 2, 0, 1},
-        {1, 0, 0, 0, 1, 1, 0, 0, 0, 2, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 2, 0, 0, 1},
-        {1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 1, 1, 0, 0, 0, 0, 0, 0, 2, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1},
-        {1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1},
-        {1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1},
-        {1, 0, 0, 2, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 1},
-        {1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 2, 0, 0, 0, 1, 1, 2, 2, 1, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 1},
-        {1, 0, 2, 1, 1, 1, 0, 0, 0, 0, 1, 1, 2, 0, 0, 0, 1, 1, 2, 2, 1, 1, 0, 0, 0, 0, 0, 0, 2, 1, 1, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 2, 1, 1, 1, 1},
-        {1, 0, 2, 0, 2, 0, 2, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1},
-        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+    int _i[5][11] = {
+    {1,1,1,1,1,1,1,1,1,1,1},
+    {1,0,2,0,2,0,2,0,2,0,1},
+    {1,0,1,0,1,0,1,0,1,2,1},
+    {1,0,2,0,2,0,2,0,2,0,1},
+    {1,1,1,1,1,1,1,1,1,1,1},
     };
 
 
