@@ -6,27 +6,27 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 13:15:29 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/15 11:53:41 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/12 14:08:09 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mlx/mlx.h"
-#include "smlx/smlx.h"
 #include "so_long.h"
+#include "smlx/smlx.h"
 #include <stdint.h>
 #include <stdlib.h>
 #include <sys/time.h>
 #include <time.h>
 
 const char *get_player_run_right(void) {
-    static const char *player_run_right = 
+    static const char *player_run_right =
         "./asset/xmp/player/run_right1.xpm," \
         "./asset/xmp/player/run_right2.xpm," \
         "./asset/xmp/player/run_right3.xpm," \
         "./asset/xmp/player/run_right4.xpm," \
         "./asset/xmp/player/run_right5.xpm," \
         "./asset/xmp/player/run_right6.xpm";
-    
+
     return player_run_right;
 }
 
