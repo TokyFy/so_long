@@ -12,18 +12,21 @@
 
 #include "smlx.h"
 
-void put_img_to_img(t_mlx_image dst, t_mlx_image src, int x, int y) {
-    int i;
-    int j;
+void	put_img_to_img(t_mlx_image dst, t_mlx_image src, int x, int y)
+{
+	int	i;
+	int	j;
 
-    i = 0;
-    j = 0;
-    while (i < src.width) {
-        j = 0;
-        while (j < src.heigth) {
-            put_pixel_img(dst, x + i, y + j, get_pixel_img(src, i, j));
-            j++;
-        }
-        i++;
-    }
+	i = 0;
+	j = 0;
+	while (i < src.width)
+	{
+		j = 0;
+		while (j < src.heigth)
+		{
+			put_pixel_img(dst, x + i, y + j, get_pixel_img(src, i, j));
+			j++;
+		}
+		i++;
+	}
 }

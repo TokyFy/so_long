@@ -12,15 +12,16 @@
 
 #include "smlx.h"
 
-void put_animation_to_image(t_mlx_image img, t_animation *animation, uint x,
-                            uint y) {
-    put_img_to_img(img, *(animation->frames[animation->current]), x, y);
-    animation->cdelay--;
-    if (animation->cdelay <= 0) {
-        animation->current++;
-        animation->cdelay = animation->delay;
-    }
-    if (animation->current > animation->length - 1)
-        animation->current = 0;
+void	put_animation_to_image(t_mlx_image img, t_animation *animation, uint x,
+		uint y)
+{
+	put_img_to_img(img, *(animation->frames[animation->current]), x, y);
+	animation->cdelay--;
+	if (animation->cdelay <= 0)
+	{
+		animation->current++;
+		animation->cdelay = animation->delay;
+	}
+	if (animation->current > animation->length - 1)
+		animation->current = 0;
 }
-
