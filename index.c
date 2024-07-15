@@ -424,17 +424,7 @@ void	init_maps(t_state *global)
 	int		j;
 
 	worlds = malloc(sizeof(t_maps));
-	worlds->h = 7;
-	worlds->w = 11;
-	int _i[7][11] = {
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-		{1, 0, 2, 0, 2, 0, 2, 0, 2, 0, 1},
-		{1, 0, 1, 0, 1, 0, 1, 0, 1, 2, 1},
-		{1, 0, 2, 0, 2, 0, 2, 0, 2, 0, 1},
-		{1, 1, 0, 0, 0, 1, 1, 0, 1, 0, 1},
-		{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-	};
+	int **_i = ber_file_parser("./engime/map.ber" , &worlds->w , &worlds->h);
 	worlds->table = malloc(sizeof(t_entity *) * 16);
 	global->worlds = worlds;
 	i = 0;

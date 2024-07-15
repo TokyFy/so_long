@@ -28,6 +28,6 @@ typedef struct state {
     t_maps *worlds;
 } t_state;
 
-
+int ** ber_file_parser(char *path , int *w , int *h);
 
 #endif // !SO_LONG_H
