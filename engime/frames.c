@@ -6,12 +6,13 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 08:59:14 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/16 13:25:16 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/16 15:15:28 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../smlx/smlx.h"
 #include "engime.h"
+
 
 const char *get_player_run_right(void) {
     static const char *player_run_right =
@@ -209,8 +210,11 @@ void	render_maps(t_state *global)
 		{
 			entity = global->worlds->table[i][j];
 			if (entity->type != -1)
-				put_animation_to_image(*global->buffer, entity->animation[0],
-					entity->x * 32, entity->y * 32);
+				if(!(entity->type == 3 && global->worlds->collect != 0))
+				{
+					put_animation_to_image(*global->buffer, entity->animation[0],
+						entity->x * 32, entity->y * 32);
+				}
 			j++;
 		}
 		i++;

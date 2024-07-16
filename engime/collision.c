@@ -6,10 +6,11 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 09:03:01 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/16 13:38:37 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/16 15:22:20 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "engime.h"
+#include <stdio.h>
 
 int	check_collision(t_state *global, int x, int y)
 {
@@ -29,19 +30,40 @@ int	check_collision(t_state *global, int x, int y)
     {
         return (0);
     }
+
     if (global->worlds->table[y1][x1]->type == 2
         || global->worlds->table[y1][x2]->type == 2
         || global->worlds->table[y2][x1]->type == 2
         || global->worlds->table[y2][x2]->type == 2)
     {
         if (global->worlds->table[y1][x1]->type == 2)
+		{
             global->worlds->table[y1][x1]->type = -1;
+			global->worlds->collect--;
+		}
         if (global->worlds->table[y1][x2]->type == 2)
+		{
             global->worlds->table[y1][x2]->type = -1;
+			global->worlds->collect--;
+		}
         if (global->worlds->table[y2][x1]->type == 2)
+		{
+			global->worlds->collect--;
             global->worlds->table[y2][x1]->type = -1;
+		}
         if (global->worlds->table[y2][x2]->type == 2)
+		{
+			global->worlds->collect--;
             global->worlds->table[y2][x2]->type = -1;
+		}
+        return (1);
+    }
+
+	 if (global->worlds->table[y1][x1]->type == 3
+        || global->worlds->table[y1][x2]->type == 3
+        || global->worlds->table[y2][x1]->type == 3
+        || global->worlds->table[y2][x2]->type == 3)
+    {
         return (1);
     }
     return (1);

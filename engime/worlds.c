@@ -6,7 +6,7 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 09:00:43 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/16 14:05:56 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/16 14:44:38 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ void	init_maps(t_state *global)
 	int **_i = ber_file_parser("./engime/map.ber" , &worlds->w , &worlds->h);
 	worlds->table = malloc(sizeof(t_entity *) * worlds->h);
 	global->worlds = worlds;
+	global->worlds->collect = 0;
 	i = 0;
 	j = 0;
 	while (i < global->worlds->h)
@@ -119,6 +120,10 @@ void	init_maps(t_state *global)
 			worlds->table[i][j]->type = _i[i][j];
 			worlds->table[i][j]->x = j;
 			worlds->table[i][j]->y = i;
+			if(_i[i][j] == 3)
+			{
+				global->worlds->collect++;
+			}
 			if(_i[i][j] == 4)
 			{
 				global->main_caracter->x = j * SCALE;

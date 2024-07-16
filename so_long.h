@@ -6,7 +6,7 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 08:52:00 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/16 14:02:32 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/16 14:42:49 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct maps {
     int w;
     int h;
     t_entity ***table;
+    int collect;
 } t_maps;
 
 typedef struct state {
