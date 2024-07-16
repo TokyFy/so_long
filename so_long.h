@@ -1,7 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/16 08:52:00 by franaivo          #+#    #+#             */
+/*   Updated: 2024/07/16 09:10:24 by franaivo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SO_LONG_H
 #define SO_LONG_H
 
 #include "smlx/smlx.h"
+#include "so_long.h"
+#include <stdlib.h>
+#include <sys/time.h>
+#include <time.h>
 
 typedef struct entity {
     int type;

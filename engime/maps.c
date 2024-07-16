@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   maps.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/16 08:52:00 by franaivo          #+#    #+#             */
+/*   Updated: 2024/07/16 09:13:11 by franaivo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../libft/libft.h"
 #include "../so_long.h"
 #include <fcntl.h>
@@ -48,20 +60,4 @@ int ** ber_file_parser(char *path , int *w , int *h)
     return fill_map_from_ber(line , *w ,*h);
 }
 
-void print_arr(int **arr , int w , int h)
-{
-    int i = 0;
-    int j = 0;
 
-    while(i < h)
-    {
-        j = 0;
-        while(j < w)
-        {
-            printf("%d " , arr[i][j]);
-            j++;
-        }
-        i++;
-        printf("\n");
-    }
-}
