@@ -6,7 +6,7 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 09:00:43 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/16 09:22:58 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/16 14:05:56 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,15 +78,18 @@ void	init_static_entity(t_state *global, t_entity *entity)
 					+ generateRandomNumber(0, 7)], 60, 1);
 		}
 	}
-	if (entity->type == 0)
-	{
-		animations[0] = init_animation(global->frame[26
-				- (generateRandomNumber(1, 9) == 5)], 60, 1);
-	}
-	if (entity->type == 2)
+	else if (entity->type == 2)
 	{
 		animations[0] = init_animation(global->frame[27
 				+ generateRandomNumber(0, 3)], generateRandomNumber(8, 12), 4);
+	}
+	else if(entity->type == 3)
+	{
+		animations[0] = init_animation(global->frame[31], 60 , 1);
+	}
+	else{
+		animations[0] = init_animation(global->frame[26
+				- (generateRandomNumber(1, 9) == 5)], 60, 1);
 	}
 	entity->direction = 0;
 	entity->idle = 1;
@@ -102,13 +105,13 @@ void	init_maps(t_state *global)
 
 	worlds = malloc(sizeof(t_maps));
 	int **_i = ber_file_parser("./engime/map.ber" , &worlds->w , &worlds->h);
-	worlds->table = malloc(sizeof(t_entity *) * 16);
+	worlds->table = malloc(sizeof(t_entity *) * worlds->h);
 	global->worlds = worlds;
 	i = 0;
 	j = 0;
 	while (i < global->worlds->h)
 	{
-		worlds->table[i] = malloc(sizeof(t_entity *) * 32);
+		worlds->table[i] = malloc(sizeof(t_entity *) * worlds->w);
 		j = 0;
 		while (j < global->worlds->w)
 		{
@@ -116,6 +119,11 @@ void	init_maps(t_state *global)
 			worlds->table[i][j]->type = _i[i][j];
 			worlds->table[i][j]->x = j;
 			worlds->table[i][j]->y = i;
+			if(_i[i][j] == 4)
+			{
+				global->main_caracter->x = j * SCALE;
+				global->main_caracter->y = i * SCALE;
+			}
 			init_static_entity(global, worlds->table[i][j]);
 			j++;
 		}

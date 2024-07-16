@@ -6,7 +6,7 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 08:52:00 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/16 09:13:11 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/16 12:10:01 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,18 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+
+void fill_ceil(int *ceil , char content) {
+    if(content == '1')
+        *ceil = 1;
+    else if(content == 'C')
+        *ceil = 2;
+    else if(content == 'E')
+        *ceil = 3;
+    else if(content == 'P')
+        *ceil = 4;
+}
 
 int ** fill_map_from_ber(t_list* line , int width , int heigh)
 {
@@ -27,7 +39,7 @@ int ** fill_map_from_ber(t_list* line , int width , int heigh)
         w = 0;
         while(w < width)
         {
-            table[h][w] = ((char*)(line->content))[w] == '1';
+            fill_ceil(&table[h][w] , ((char*)(line->content))[w]);
             w++;
         }
         line = line->next;

@@ -6,7 +6,7 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 08:59:14 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/16 09:11:06 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/16 13:25:16 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ const char *get_player_run_right(void) {
 	"./asset/xmp/props/food4.xpm"
 
 #define TEMPORARY_OBSTACLE "./asset/xmp/wall.xpm"
+#define EXIT "./asset/xmp/exit.xpm"
 
 
 t_mlx_image	***load_all_frame(void *mlx_ptr)
@@ -162,6 +163,7 @@ t_mlx_image	***load_all_frame(void *mlx_ptr)
     frames[28] = load_sprite(mlx_ptr, COIN_2, 4);
     frames[29] = load_sprite(mlx_ptr, COIN_3, 4);
     frames[30] = load_sprite(mlx_ptr, COIN_4, 4);
+    frames[31] = load_sprite(mlx_ptr, EXIT, 1);
     return (frames);
 }
 
@@ -188,7 +190,6 @@ int	render_next_frame(void *global)
 			g->main_caracter->animation[g->main_caracter->direction - 1],
 			g->main_caracter->x, g->main_caracter->y);
 	}
-	// debug_grid(*g->buffer, 0x9C9868);
 	mlx_put_image_to_window(g->mlx_ptr, g->win_ptr, g->buffer->img, 0, 0);
 	return (0);
 }
