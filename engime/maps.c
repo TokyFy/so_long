@@ -6,7 +6,7 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 08:52:00 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/16 12:10:01 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/17 13:58:14 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ int ** fill_map_from_ber(t_list* line , int width , int heigh)
 {
     int w = 0;
     int h = 0;
-    int **table = malloc(sizeof(int*) * heigh);
+    int **table = ft_calloc(sizeof(int*) , heigh);
     while(h < heigh)
     {
-        table[h] = malloc(sizeof(int) * width);
+        table[h] = ft_calloc(sizeof(int) , width);
         w = 0;
         while(w < width)
         {

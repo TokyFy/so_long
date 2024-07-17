@@ -6,7 +6,7 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 09:03:01 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/17 11:07:38 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/17 13:54:25 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "engime.h"
@@ -74,6 +74,5 @@ int check_collision(t_state *global, int x, int y) {
         collision_modifier(global, x, y, winning_collision);
         return (0);
     }
-
     return 0;
 }

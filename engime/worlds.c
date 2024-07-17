@@ -6,9 +6,11 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 09:00:43 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/17 10:05:21 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/17 13:36:19 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <stdio.h>
 
 #include "engime.h"
 
@@ -97,6 +99,15 @@ void	init_static_entity(t_state *global, t_entity *entity)
 	entity->animation = animations;
 }
 
+void print2DArray(int rows, int cols, int **array) {
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			printf("%d ", array[i][j]);
+		}
+		printf("\n");
+	}
+}
+
 void	init_maps(t_state *global)
 {
 	t_maps	*worlds;
@@ -104,7 +115,10 @@ void	init_maps(t_state *global)
 	int		j;
 
 	worlds = malloc(sizeof(t_maps));
-	int **_i = ber_file_parser("./engime/map.ber" , &worlds->w , &worlds->h);
+	int **table = ber_file_parser("./engime/map.ber" , &worlds->w , &worlds->h);
+
+	print2DArray(worlds->h , worlds->w , table );
+
 	worlds->table = malloc(sizeof(t_entity *) * worlds->h);
 	global->worlds = worlds;
 	global->worlds->collect = 0;
@@ -117,14 +131,14 @@ void	init_maps(t_state *global)
 		while (j < global->worlds->w)
 		{
 			worlds->table[i][j] = malloc(sizeof(t_entity));
-			worlds->table[i][j]->type = _i[i][j];
+			worlds->table[i][j]->type = table[i][j];
 			worlds->table[i][j]->x = j;
 			worlds->table[i][j]->y = i;
-			if(_i[i][j] == 3)
+			if(table[i][j] == 2)
 			{
 				global->worlds->collect++;
 			}
-			if(_i[i][j] == 4)
+			if(table[i][j] == 4)
 			{
 				global->main_caracter->x = j * SCALE;
 				global->main_caracter->y = i * SCALE;
