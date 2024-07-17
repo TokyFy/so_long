@@ -6,7 +6,7 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 08:52:00 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/16 14:42:49 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/17 10:33:43 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct state {
     t_entity *main_caracter;
     t_mlx_image ***frame;
     t_maps *worlds;
+    int winning;
 } t_state;
 
 int ** ber_file_parser(char *path , int *w , int *h);

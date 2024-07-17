@@ -6,7 +6,7 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 09:03:26 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/16 09:12:38 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/17 10:06:02 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	on_key_down(int keycode, void *global)
         g->main_caracter->direction = 4;
         x = g->main_caracter->x + factor;
     }
-    if (check_collision(global, x, y))
+    if (!check_collision(global, x, y))
     {
         g->main_caracter->x = x;
         g->main_caracter->y = y;

@@ -6,7 +6,7 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 08:59:14 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/16 15:15:28 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/17 10:41:04 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,12 @@ int	render_next_frame(void *global)
 	t_state			*g;
 	static uint64_t	updated_at = 0;
 
+	// winning
 	g = global;
+
+	if(g->winning)
+		exit(0);
+
 	if (timestamp_in_ms() - updated_at < (uint64_t)(1000 / 60))
 		return (0);
 	updated_at = timestamp_in_ms();

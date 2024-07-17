@@ -6,7 +6,7 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 13:15:29 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/16 14:03:44 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/17 10:34:18 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void init_global(t_state *global) {
 	mlx_ptr = mlx_init();
 	global->mlx_ptr = mlx_ptr;
 	global->frame = load_all_frame(mlx_ptr);
+	global->winning = 0;
 }
 
 void init_windows(t_state *global) {
