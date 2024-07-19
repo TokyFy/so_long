@@ -6,16 +6,18 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 08:59:14 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/17 10:41:04 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/19 15:22:22 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../smlx/smlx.h"
 #include "engime.h"
+#include <stdlib.h>
+#include "../so_long.h"
 
 
 const char *get_player_run_right(void) {
-    static const char *player_run_right =
+    const char *player_run_right =
         "./asset/xmp/player/run_right1.xpm," \
         "./asset/xmp/player/run_right2.xpm," \
         "./asset/xmp/player/run_right3.xpm," \
@@ -132,7 +134,7 @@ t_mlx_image	***load_all_frame(void *mlx_ptr)
 {
     t_mlx_image	***frames;
 
-    frames = malloc(sizeof(t_mlx_image *) * 35);
+    frames = malloc(sizeof(t_mlx_image *) * 32);
     frames[0] = load_sprite(mlx_ptr, PLAYER_RUN_TOP, 6);
     frames[1] = load_sprite(mlx_ptr, PLAYER_RUN_BOTTOM, 6);
     frames[2] = load_sprite(mlx_ptr, PLAYER_RUN_LEFT, 6);
@@ -168,16 +170,49 @@ t_mlx_image	***load_all_frame(void *mlx_ptr)
     return (frames);
 }
 
+void free_frame(t_state *global , t_mlx_image **frame , int length)
+{
+  int i = 0;
+
+  while(i < length)
+  {
+    destroy_image(global , frame[i]);
+    i++;
+  }
+
+  free(frame);
+}
+
+void free_frame_set(t_state *global , int start  , int slen , int flen)
+{
+  int i = 0;
+  while (i < slen) {
+    free_frame(global , global->frame[i + start], flen);
+    i++;
+  }
+}
+
+void free_all_frame(t_state *global)
+{
+  free_frame_set(global , 0 , 4, 6);
+  free_frame_set(global , 4, 4, 4);
+  free_frame_set(global , 8, 19, 1);
+  free_frame_set(global , 27, 4, 4);
+  free_frame_set(global , 31, 1, 1);
+  free(global->frame);
+}
+
 int	render_next_frame(void *global)
 {
 	t_state			*g;
 	static uint64_t	updated_at = 0;
 
-	// winning
 	g = global;
 
 	if(g->winning)
-		exit(0);
+  {
+		exit_game(global);
+  }
 
 	if (timestamp_in_ms() - updated_at < (uint64_t)(1000 / 60))
 		return (0);

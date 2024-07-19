@@ -6,7 +6,7 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 09:03:01 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/17 13:54:25 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/19 14:33:45 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "engime.h"
@@ -60,7 +60,6 @@ void winning_collision(t_state *global, t_entity *entity) {
     if(entity->type != 3 || global->worlds->collect > 0)
         return;
     global->winning = 1;
-    exit(0);
 }
 
 int check_collision(t_state *global, int x, int y) {

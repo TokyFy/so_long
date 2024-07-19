@@ -13,16 +13,16 @@ CFLAGS = -g -Imlx
 LDFLAGS = -Lmlx -lmlx_Linux -lXext -lX11 -lm -lz
 all: $(NAME)
 
-$(LIBSMLX):
-	$(MAKE) -C ./smlx
-
 $(LIBFT):
 	$(MAKE) bonus -C ./libft
 
-$(LIBENGIME):
+$(LIBSMLX): 
+	$(MAKE) -C ./smlx
+
+$(LIBENGIME): 
 	$(MAKE) -C ./engime
 
-$(NAME): $(LIBFT) $(LIBENGIME) $(LIBSMLX) $(OBJS)
+$(NAME): $(OBJS) $(LIBFT) $(LIBSMLX) $(LIBENGIME)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBENGIME) $(LIBSMLX) $(LIBFT) $(LDFLAGS) -o $(NAME)
 
 %.o: %.c
@@ -36,10 +36,13 @@ clean:
 
 fclean: clean
 	rm -f $(NAME)
-	rm -rf mlx
-	rm -rf $(LIBMLX_TGZ).tgz
 
 re: fclean all
+
+bonus : all
+
+test :
+	valgrind -s --leak-check=full --show-leak-kinds=all --track-origins=yes ./so_long map.ber
 
 configure:
 	rm -rf mlx
@@ -49,4 +52,4 @@ configure:
 	$(MAKE) -C ./mlx
 	rm -rf $(LIBMLX_TGZ).tgz
 
-.PHONY: all clean fclean re
+.PHONY: clean fclean re

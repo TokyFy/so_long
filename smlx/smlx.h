@@ -6,7 +6,7 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 11:55:59 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/15 11:30:56 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/19 15:21:04 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,6 @@ void			fill_pixel_img(t_mlx_image img, int color);
 void			put_animation_to_image(t_mlx_image img, t_animation *animation,
 					uint x, uint y);
 t_animation		*init_animation(t_mlx_image **frame, int delay, int length);
+void destroy_image(void *global , t_mlx_image *img);
 
 #endif // !SMLX_H

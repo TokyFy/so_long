@@ -6,7 +6,7 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 08:52:00 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/17 10:33:43 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/19 10:55:37 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #define SO_LONG_H
 
 #include "smlx/smlx.h"
-#include "so_long.h"
 #include <stdlib.h>
 #include <sys/time.h>
 #include <time.h>
@@ -49,5 +48,6 @@ typedef struct state {
 } t_state;
 
 int ** ber_file_parser(char *path , int *w , int *h);
+int exit_game(t_state *global);
 
 #endif // !SO_LONG_H

@@ -6,12 +6,13 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 08:52:00 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/17 13:58:14 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/19 11:32:36 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft/libft.h"
 #include "../so_long.h"
+#include <complex.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -32,6 +33,7 @@ int ** fill_map_from_ber(t_list* line , int width , int heigh)
 {
     int w = 0;
     int h = 0;
+    t_list *lst = line;
     int **table = ft_calloc(sizeof(int*) , heigh);
     while(h < heigh)
     {
@@ -46,6 +48,7 @@ int ** fill_map_from_ber(t_list* line , int width , int heigh)
         h++;
     }
 
+    ft_lstclear(&lst, free);
     return table;
 }
 
@@ -69,6 +72,7 @@ int ** ber_file_parser(char *path , int *w , int *h)
     (*w)--;
     (*h)--;
 
+    close(fd);
     return fill_map_from_ber(line , *w ,*h);
 }
 

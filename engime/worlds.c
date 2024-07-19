@@ -6,11 +6,12 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 09:00:43 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/17 13:36:19 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/19 11:37:16 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "engime.h"
 
@@ -39,6 +40,7 @@ void	init_static_entity(t_state *global, t_entity *entity)
 	t_animation	**animations;
 
 	animations = malloc(sizeof(t_animation *));
+  entity->c_animation = 1;
 	if (entity->type == 1)
 	{
 		if (entity->x == 0 && entity->y == 0)
@@ -108,6 +110,17 @@ void print2DArray(int rows, int cols, int **array) {
 	}
 }
 
+void free_2d_int(int **arr , int h)
+{
+  int i = 0;
+  while(i < h)
+  {
+    free(arr[i]);
+    i++;
+  }
+  free(arr);
+}
+
 void	init_maps(t_state *global , char* ber_file)
 {
 	t_maps	*worlds;
@@ -121,6 +134,7 @@ void	init_maps(t_state *global , char* ber_file)
 	global->worlds->collect = 0;
 	i = 0;
 	j = 0;
+
 	while (i < global->worlds->h)
 	{
 		worlds->table[i] = malloc(sizeof(t_entity *) * worlds->w);
@@ -145,4 +159,5 @@ void	init_maps(t_state *global , char* ber_file)
 		}
 		i++;
 	}
+  free_2d_int(table, worlds->h);
 }

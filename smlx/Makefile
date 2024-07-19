@@ -2,7 +2,7 @@ SOURCES = fill_pixel_img.c get_pixel_img.c load_sprite.c put_animation_to_image.
 			put_pixel_img.c
 
 CC = cc
-FLAGS =
+FLAGS = -g
 NAME = libsmlx.a
 
 OBJECTS = $(SOURCES:.c=.o)

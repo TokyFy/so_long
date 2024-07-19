@@ -6,13 +6,14 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 13:15:29 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/17 10:34:18 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/19 15:18:02 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "engime/engime.h"
 #include "smlx/smlx.h"
 #include "so_long.h"
+#include <stdlib.h>
 
 void init_player(t_state *global) {
 	t_entity	*player = malloc(sizeof(t_entity));
@@ -30,6 +31,7 @@ void init_player(t_state *global) {
 	player->animation[5] = init_animation(global->frame[5], 10, 4);
 	player->animation[6] = init_animation(global->frame[6], 10, 4);
 	player->animation[7] = init_animation(global->frame[7], 10, 4);
+  player->c_animation = 8;
 	global->main_caracter = player;
 }
 
@@ -65,23 +67,60 @@ void init_windows(t_state *global) {
 
 }
 
+
+
+void destroy_animation(t_animation *animation)
+{
+  free(animation);
+}
+
+void destroy_entity(t_entity *entity)
+{
+  if(!entity)
+    return;
+  
+  int i = 0;
+
+  while (i < entity->c_animation) {
+    destroy_animation(entity->animation[i]);
+    i++;
+  }
+  free(entity->animation);
+  free(entity);
+}
+
+void destroy_worlds(t_maps *worlds)
+{
+  int i = 0;
+  int j = 0;
+
+  while(i < worlds->h)
+  {
+    while (j < worlds->w) {
+      destroy_entity(worlds->table[i][j]);
+      j++;
+    }
+    free(worlds->table[i]);
+    i++;
+  }
+  free(worlds->table);
+  free(worlds);
+}
+
 void free_global(t_state *global)
 {
-	free(global->buffer);
-
-	free(global->main_caracter);
-
-	mlx_destroy_window(global->mlx_ptr, global->win_ptr);
+  destroy_entity(global->main_caracter);
+  destroy_worlds(global->worlds);
+  free_all_frame(global);
+  mlx_destroy_window(global->mlx_ptr, global->win_ptr);
 	mlx_destroy_display(global->mlx_ptr);
-	free(global->mlx_ptr);
+  free(global->mlx_ptr);
 }
 
 int exit_game(t_state *global) {
 	free_global(global);
 	exit(1);
 }
-
-
 
 int	main(int argc , char *argv[])
 {
