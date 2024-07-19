@@ -108,17 +108,14 @@ void print2DArray(int rows, int cols, int **array) {
 	}
 }
 
-void	init_maps(t_state *global)
+void	init_maps(t_state *global , char* ber_file)
 {
 	t_maps	*worlds;
 	int		i;
 	int		j;
 
 	worlds = malloc(sizeof(t_maps));
-	int **table = ber_file_parser("./engime/map.ber" , &worlds->w , &worlds->h);
-
-	print2DArray(worlds->h , worlds->w , table );
-
+	int **table = ber_file_parser(ber_file , &worlds->w , &worlds->h);
 	worlds->table = malloc(sizeof(t_entity *) * worlds->h);
 	global->worlds = worlds;
 	global->worlds->collect = 0;

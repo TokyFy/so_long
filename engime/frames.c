@@ -196,6 +196,7 @@ int	render_next_frame(void *global)
 			g->main_caracter->animation[g->main_caracter->direction - 1],
 			g->main_caracter->x, g->main_caracter->y);
 	}
+
 	mlx_put_image_to_window(g->mlx_ptr, g->win_ptr, g->buffer->img, 0, 0);
 	return (0);
 }

@@ -25,7 +25,7 @@ uint64_t	timestamp_in_ms(void);
 t_mlx_image	***load_all_frame(void *mlx_ptr);
 int	render_next_frame(void *global);
 void	render_maps(t_state *global);
-void	init_maps(t_state *global);
+void	init_maps(t_state *global , char* ber_path);
 
 int	on_key_up(int keycode, void *global);
 int	on_key_down(int keycode, void *global);

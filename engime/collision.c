@@ -57,7 +57,7 @@ void collect_collision(t_state *global, t_entity *entity) {
 }
 
 void winning_collision(t_state *global, t_entity *entity) {
-    if(entity->type != 3)
+    if(entity->type != 3 || global->worlds->collect > 0)
         return;
     global->winning = 1;
     exit(0);

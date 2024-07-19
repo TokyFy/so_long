@@ -36,9 +36,15 @@ void init_player(t_state *global) {
 void init_global(t_state *global) {
 	void		*mlx_ptr;
 	mlx_ptr = mlx_init();
+	global->buffer = NULL;
+	global->mlx_ptr = NULL;
+	global->win_ptr = NULL;
+	global->main_caracter = NULL;
+	global->frame = NULL;
+	global->worlds = NULL;
+	global->winning = 0;
 	global->mlx_ptr = mlx_ptr;
 	global->frame = load_all_frame(mlx_ptr);
-	global->winning = 0;
 }
 
 void init_windows(t_state *global) {
@@ -59,22 +65,38 @@ void init_windows(t_state *global) {
 
 }
 
-int exit_game(t_state *global) {
+void free_global(t_state *global)
+{
+	free(global->buffer);
+
+	free(global->main_caracter);
+
 	mlx_destroy_window(global->mlx_ptr, global->win_ptr);
 	mlx_destroy_display(global->mlx_ptr);
 	free(global->mlx_ptr);
+}
+
+int exit_game(t_state *global) {
+	free_global(global);
 	exit(1);
 }
 
-int	main(void)
+
+
+int	main(int argc , char *argv[])
 {
 	t_state		global;
+
+	if(argc != 2) {
+		write(2,"Map file required" , 17);
+		return (1);
+	}
 
 	srand(time(NULL));
 
 	init_global(&global);
 	init_player(&global);
-	init_maps(&global);
+	init_maps(&global , argv[1]);
 	init_windows(&global);
 
 	mlx_hook(global.win_ptr, 03, 1L << 1, on_key_up, &global);
