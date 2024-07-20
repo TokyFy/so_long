@@ -212,6 +212,7 @@ int	render_next_frame(void *global)
 	if(g->winning)
   {
 		exit_game(global);
+		return (1);
   }
 
 	if (timestamp_in_ms() - updated_at < (uint64_t)(1000 / 60))
@@ -233,7 +234,7 @@ int	render_next_frame(void *global)
 	}
 
 	mlx_put_image_to_window(g->mlx_ptr, g->win_ptr, g->buffer->img, 0, 0);
-	return (0);
+	return 0;
 }
 
 void	render_maps(t_state *global)

@@ -12,7 +12,6 @@
 
 #include "../libft/libft.h"
 #include "../so_long.h"
-#include <complex.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
