@@ -6,7 +6,7 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 09:06:00 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/19 11:57:25 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/22 13:14:44 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ int	generateRandomNumber(int min, int max);
 void print_arr(int **arr , int w , int h);
 
 void free_all_frame(t_state *global);
+void free_2d_int(int **arr, int h);
 
 #endif

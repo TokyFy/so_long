@@ -6,12 +6,13 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 09:00:43 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/19 11:37:16 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/22 12:37:25 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include "engime.h"
 
@@ -95,9 +96,15 @@ void init_maps(t_state *global, char *ber_file) {
     t_maps *worlds;
     int i;
     int j;
-
+    
     worlds = malloc(sizeof(t_maps));
     int **table = ber_file_parser(ber_file, &worlds->w, &worlds->h);
+    if(!table)
+    {
+      free(worlds);
+      exit_game(global);
+      return;
+    }
     worlds->table = malloc(sizeof(t_entity *) * worlds->h);
     global->worlds = worlds;
     global->worlds->collect = 0;

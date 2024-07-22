@@ -6,7 +6,7 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 08:59:14 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/19 15:22:22 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/22 13:22:34 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ const char *get_player_run_right(void) {
         "./asset/xmp/player/run_right4.xpm," \
         "./asset/xmp/player/run_right5.xpm," \
         "./asset/xmp/player/run_right6.xpm";
-
     return player_run_right;
 }
 
@@ -172,13 +171,11 @@ t_mlx_image	***load_all_frame(void *mlx_ptr)
 void free_frame(t_state *global , t_mlx_image **frame , int length)
 {
   int i = 0;
-
   while(i < length)
   {
     destroy_image(global , frame[i]);
     i++;
   }
-
   free(frame);
 }
 

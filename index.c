@@ -6,7 +6,7 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 13:15:29 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/19 15:18:02 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/22 12:29:03 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "smlx/smlx.h"
 #include "so_long.h"
 #include <stdlib.h>
+#include <unistd.h>
 
 void init_player(t_state *global) {
     t_entity *player = malloc(sizeof(t_entity));
@@ -89,6 +90,9 @@ void destroy_worlds(t_maps *worlds) {
     int i = 0;
     int j = 0;
 
+    if(!worlds)
+      return;
+
     while (i < worlds->h) {
         j = 0;
         while (j < worlds->w) {
@@ -106,14 +110,19 @@ void free_global(t_state *global) {
     destroy_entity(global->main_caracter);
     destroy_worlds(global->worlds);
     free_all_frame(global);
-    destroy_image(global, global->buffer);
-    mlx_destroy_window(global->mlx_ptr, global->win_ptr);
+    if(global->buffer)
+      destroy_image(global, global->buffer);
+    if(global->mlx_ptr && global->win_ptr)
+    {
+      mlx_destroy_window(global->mlx_ptr, global->win_ptr);
+    }
     mlx_destroy_display(global->mlx_ptr);
     free(global->mlx_ptr);
 }
 
 int exit_game(t_state *global) {
-    free_global(global);
+    if(global)
+      free_global(global);
     exit(1);
 }
 
@@ -130,7 +139,6 @@ int main(int argc, char *argv[]) {
     init_player(&global);
     init_maps(&global, argv[1]);
     init_windows(&global);
-
     mlx_hook(global.win_ptr, 03, 1L << 1, on_key_up, &global);
     mlx_hook(global.win_ptr, 02, 1L << 0, on_key_down, &global);
     mlx_hook(global.win_ptr, 17, 0, exit_game, &global);
