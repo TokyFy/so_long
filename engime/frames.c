@@ -15,7 +15,6 @@
 #include <stdlib.h>
 #include "../so_long.h"
 
-
 const char *get_player_run_right(void) {
     const char *player_run_right =
         "./asset/xmp/player/run_right1.xpm," \

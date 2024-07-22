@@ -9,7 +9,7 @@ LIBMLX_URL = https://cdn.intra.42.fr/document/document/26489/minilibx-linux.tgz
 LIBMLX_TGZ = minilibx-linux
 
 CC = cc
-CFLAGS = -g -Imlx
+CFLAGS = -g -Imlx 
 LDFLAGS = -Lmlx -lmlx_Linux -lXext -lX11 -lm -lz
 all: $(NAME)
 
