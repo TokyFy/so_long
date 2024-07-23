@@ -40,11 +40,11 @@ void			put_pixel_img(t_mlx_image img, unsigned int x, unsigned int y,
 					int color);
 unsigned int	get_pixel_img(t_mlx_image img, int x, int y);
 void			put_img_to_img(t_mlx_image dst, t_mlx_image src, int x, int y);
-t_mlx_image		**load_sprite(void *mlx_ptr,const char *xpm, int length);
+t_mlx_image		**load_sprite(void *mlx_ptr, const char *xpm, int length);
 void			fill_pixel_img(t_mlx_image img, int color);
 void			put_animation_to_image(t_mlx_image img, t_animation *animation,
 					uint x, uint y);
 t_animation		*init_animation(t_mlx_image **frame, int delay, int length);
-void destroy_image(void *global , t_mlx_image *img);
+void			destroy_image(void *global, t_mlx_image *img);
 
 #endif // !SMLX_H
