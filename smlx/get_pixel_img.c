@@ -6,7 +6,7 @@
 /*   By: franaivo <franaivo@student.42antananarivo  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 10:29:50 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/23 13:54:22 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:39:34 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "smlx.h"

@@ -6,7 +6,7 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 10:29:21 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/15 10:33:13 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:38:24 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	put_pixel_img(t_mlx_image img, unsigned int x, unsigned int y,
 {
 	char	*dst;
 
-	if (color == 0xFF000000)
+	if ((unsigned int)color == 0xFF000000)
 		return ;
-	if (x > img.width || y > img.heigth)
+	if (x > (unsigned int)img.width || y > (unsigned int)img.heigth)
 		return ;
 	dst = img.addr + (y * img.line_length + x * (img.bits_per_pixel / 8));
 	*(unsigned int *)dst = color;

@@ -1,5 +1,5 @@
 NAME = so_long
-SRCS = index.c
+SRCS = index.c ./src/init.c ./src/free_game.c
 OBJS = $(SRCS:.c=.o)
 LIBFT = ./libft/libft.a
 LIBENGIME = ./engime/libengime.a
@@ -9,7 +9,7 @@ LIBMLX_URL = https://cdn.intra.42.fr/document/document/26489/minilibx-linux.tgz
 LIBMLX_TGZ = minilibx-linux
 
 CC = cc
-CFLAGS = -g -Imlx 
+CFLAGS = -g -Wall -Wextra -Werror -Imlx 
 LDFLAGS = -Lmlx -lmlx_Linux -lXext -lX11 -lm -lz
 all: $(NAME)
 

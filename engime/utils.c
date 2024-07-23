@@ -6,21 +6,32 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 09:04:53 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/16 09:16:11 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:02:26 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "engime.h"
 
-int	generateRandomNumber(int min, int max)
+void	init_zero(void *ptr1, void *ptr2, void *ptr3, void *ptr4)
 {
-    int	temp;
+	if (ptr1)
+		*(int *)ptr1 = 0;
+	if (ptr2)
+		*(int *)ptr2 = 0;
+	if (ptr3)
+		*(int *)ptr3 = 0;
+	if (ptr4)
+		*(int *)ptr4 = 0;
+}
 
-    if (min > max)
-    {
-        // Swap min and max if min is greater than max
-        temp = min;
-        min = max;
-        max = temp;
-    }
-    return ((rand() % (max - min + 1)) + min);
+int	ft_random(int min, int max)
+{
+	int	temp;
+
+	if (min > max)
+	{
+		temp = min;
+		min = max;
+		max = temp;
+	}
+	return ((rand() % (max - min + 1)) + min);
 }
