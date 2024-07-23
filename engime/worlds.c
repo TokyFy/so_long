@@ -6,11 +6,10 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 09:00:43 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/22 12:37:25 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/23 11:29:18 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -74,14 +73,7 @@ void init_static_entity(t_state *global, t_entity *entity) {
     entity->animation = animations;
 }
 
-void print2DArray(int rows, int cols, int **array) {
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < cols; j++) {
-            printf("%d ", array[i][j]);
-        }
-        printf("\n");
-    }
-}
+
 
 void free_2d_int(int **arr, int h) {
     int i = 0;

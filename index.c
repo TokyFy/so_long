@@ -6,13 +6,15 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 13:15:29 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/22 12:29:03 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/23 12:05:09 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "engime/engime.h"
+#include "libft/libft.h"
 #include "smlx/smlx.h"
 #include "so_long.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -126,10 +128,28 @@ int exit_game(t_state *global) {
     exit(1);
 }
 
+int valid_ber_filename(char *path)
+{
+  int len = ft_strlen(path);
+
+  if(len < 4)
+    return 0;
+  
+  char *ext = path + (len - 4);
+  
+  if(*(ext - 1) == '/')
+   return 0; 
+
+  if(ext != ft_strnstr(path, ".ber", len))
+    return 0;
+
+  return 1;
+}
+
 int main(int argc, char *argv[]) {
     t_state global;
 
-    if (argc != 2) {
+    if (argc != 2 || !valid_ber_filename(argv[1])) {
         write(2, "Map file required", 17);
         return (1);
     }
