@@ -1,9 +1,8 @@
-SOURCES = ./collision.c ./fps.c ./frames.c ./keys.c ./maps.c ./utils.c ./worlds.c \
-					./map_utils.c ./map_validation.c ./init.c
+SOURCES = ./src/player_run.c ./src/player_idle.c
 
 CC = cc
 FLAGS = -g -Wall -Wextra -Werror
-NAME = libengime.a
+NAME = libassets.a
 
 OBJECTS = $(SOURCES:.c=.o)
 

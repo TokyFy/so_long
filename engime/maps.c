@@ -6,7 +6,7 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 08:52:00 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/24 09:11:02 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/24 14:28:19 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,27 @@ int	**fill_map_from_ber(t_list *line, int width, int heigh)
 	ft_lstclear(&lst, free);
 	validate_table(&table, width, heigh);
 	return (table);
+}
+
+int	verify_line(char *str, int *w, int *h)
+{
+	int	error;
+
+	error = 0;
+	(void)(h);
+	if (*w == -1)
+	{
+		*w = ft_strlen_set(str, "01PCE");
+	}
+	if (str && (unsigned int)*w != ft_strlen_set(str, "01PCE"))
+	{
+		ft_putstr_fd("Error : Map line should be the same size\n", 2);
+		error = 1;
+	}
+	if (str && !valid_map_line(str))
+	{
+		ft_putstr_fd("Error : the maps should only conten 01PCE\n", 2);
+		error = 1;
+	}
+	return (error);
 }

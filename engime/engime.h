@@ -6,7 +6,7 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 09:06:00 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/23 15:33:23 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:38:23 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../smlx/smlx.h"
 # include "../so_long.h"
+#include "../asset/src/assets.h"
 # include <fcntl.h>
 # include <stdint.h>
 # include <sys/time.h>
@@ -49,5 +50,8 @@ int			have_at_least_one_collectible(int row, int col, int **array);
 
 int			valid_map_line(char *str);
 int			valid_wall(int **table, int width, int heigh);
+int			verify_line(char *str, int *w, int *h);
 void		init_zero(void *ptr1, void *ptr2, void *ptr3, void *ptr4);
+void		init_static_entity(t_state *global, t_entity *entity);
+
 #endif

@@ -5,6 +5,7 @@ LIBFT = ./libft/libft.a
 LIBENGIME = ./engime/libengime.a
 LIBSMLX = ./smlx/libsmlx.a
 LIBMLX =  ./mlx/libmlx.a
+LIBASSETS = ./asset/libassets.a
 LIBMLX_URL = https://cdn.intra.42.fr/document/document/26489/minilibx-linux.tgz
 LIBMLX_TGZ = minilibx-linux
 
@@ -22,8 +23,11 @@ $(LIBSMLX):
 $(LIBENGIME): 
 	$(MAKE) -C ./engime
 
-$(NAME): $(OBJS) $(LIBFT) $(LIBSMLX) $(LIBENGIME)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBENGIME) $(LIBSMLX) $(LIBFT) $(LDFLAGS) -o $(NAME)
+$(LIBASSETS):
+	$(MAKE) -C ./asset
+
+$(NAME): $(OBJS) $(LIBFT) $(LIBSMLX) $(LIBASSETS) $(LIBENGIME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBENGIME)  $(LIBSMLX) $(LIBASSETS) $(LIBFT) $(LDFLAGS) -o $(NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@

@@ -6,7 +6,7 @@
 /*   By: franaivo <franaivo@student.42antananarivo  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 15:21:36 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/23 15:22:09 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/24 14:30:18 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../engime/engime.h"
@@ -66,4 +66,15 @@ void	init_windows(t_state *global)
 	buffer->addr = mlx_get_data_addr(buffer->img, &(buffer->bits_per_pixel),
 			&(buffer->line_length), &(buffer->endian));
 	global->buffer = buffer;
+}
+
+t_entity	*new_entity(int type, int x, int y)
+{
+	t_entity	*entity;
+
+	entity = malloc(sizeof(t_entity));
+	entity->type = type;
+	entity->x = x;
+	entity->y = y;
+	return (entity);
 }
