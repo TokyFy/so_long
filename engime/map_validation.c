@@ -6,9 +6,10 @@
 /*   By: franaivo <franaivo@student.42antananarivo  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 14:39:58 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/23 14:48:44 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/24 13:13:09 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include "engime.h"
 
 int	valid_map_line(char *str)
 {
@@ -26,7 +27,9 @@ int	valid_wall(int **table, int width, int heigh)
 {
 	int	i;
 	int	j;
+	int	error;
 
+	error = 0;
 	i = 0;
 	j = 0;
 	while (i < heigh)
@@ -35,14 +38,11 @@ int	valid_wall(int **table, int width, int heigh)
 		while (j < width)
 		{
 			if ((i == 0 || i == heigh - 1) && table[i][j] != 1)
-			{
-				return (0);
-			}
-			else
-			{
-				if ((j == 0 || j == width - 1) && table[i][j] != 1)
-					return (0);
-			}
+				error = 1;
+			else if ((j == 0 || j == width - 1) && table[i][j] != 1)
+				error = 1;
+			if (error)
+				return (ft_putstr_fd("Error , Not sunrounded by 1!\n", 2), 0);
 			j++;
 		}
 		i++;

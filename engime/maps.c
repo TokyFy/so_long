@@ -6,7 +6,7 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 08:52:00 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/23 15:00:37 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/24 09:11:02 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,16 @@ int	validate_table(int ***table, int width, int heigh)
 
 	error = 0;
 	if (width == heigh)
+	{
 		error = 1;
+		ft_putstr_fd("Error : squared Maps !\n", 2);
+	}
 	if (!valid_wall(*table, width, heigh))
 		error = 1;
 	if (!valid_route(*table, width, heigh))
 		error = 1;
 	if (error)
 	{
-		write(1, "Map error !\n", 11);
 		free_2d_int(*table, heigh);
 		*table = NULL;
 	}

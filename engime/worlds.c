@@ -6,7 +6,7 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 09:00:43 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/23 15:36:42 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/24 13:26:08 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,58 +42,34 @@ void	init_static_entity(t_state *global, t_entity *entity)
 	if (entity->type == 1)
 	{
 		if (entity->x == 0 && entity->y == 0)
-		{
 			animations[0] = init_animation(global->frame[12], 60, 1);
-		}
 		else if (entity->y == 0 && entity->x + 1 == global->worlds->w)
-		{
 			animations[0] = init_animation(global->frame[13], 60, 1);
-		}
 		else if (entity->x == 0 && entity->y + 1 == global->worlds->h)
-		{
 			animations[0] = init_animation(global->frame[14], 60, 1);
-		}
 		else if (entity->x + 1 == global->worlds->w && entity->y
 			+ 1 == global->worlds->h)
-		{
 			animations[0] = init_animation(global->frame[15], 60, 1);
-		}
 		else if (entity->y == 0)
-		{
 			animations[0] = init_animation(global->frame[8], 60, 1);
-		}
 		else if (entity->y + 1 == global->worlds->h)
-		{
 			animations[0] = init_animation(global->frame[9], 60, 1);
-		}
 		else if (entity->x == 0)
-		{
 			animations[0] = init_animation(global->frame[10], 60, 1);
-		}
 		else if (entity->x + 1 == global->worlds->w)
-		{
 			animations[0] = init_animation(global->frame[11], 60, 1);
-		}
 		else
-		{
 			animations[0] = init_animation(global->frame[17 + ft_random(0, 7)],
 					60, 1);
-		}
 	}
 	else if (entity->type == 2)
-	{
 		animations[0] = init_animation(global->frame[27 + ft_random(0, 3)],
 				ft_random(8, 12), 4);
-	}
 	else if (entity->type == 3)
-	{
 		animations[0] = init_animation(global->frame[31], 60, 1);
-	}
 	else
-	{
 		animations[0] = init_animation(global->frame[26 - (ft_random(1,
 						9) == 5)], 60, 1);
-	}
 	entity->direction = 0;
 	entity->idle = 1;
 	entity->c_animation = 1;
@@ -159,6 +135,29 @@ void	init_maps(t_state *global, char *ber_file)
 	free_2d_int(table, worlds->h);
 }
 
+int	verify_line(char *str, int *w, int *h)
+{
+	int	error;
+
+	error = 0;
+	(void)(h);
+	if (*w == -1)
+	{
+		*w = ft_strlen_set(str, "01PCE");
+	}
+	if (str && (unsigned int)*w != ft_strlen_set(str, "01PCE"))
+	{
+		ft_putstr_fd("Error : Map line should be the same size\n", 2);
+		error = 1;
+	}
+	if (str && !valid_map_line(str))
+	{
+		ft_putstr_fd("Error : the maps should only conten 01PCE\n", 2);
+		error = 1;
+	}
+	return (error);
+}
+
 int	**ber_file_parser(char *path, int *w, int *h)
 {
 	int		fd;
@@ -166,38 +165,26 @@ int	**ber_file_parser(char *path, int *w, int *h)
 	char	*str;
 	int		error;
 
+	error = 0;
 	fd = open(path, O_RDONLY);
 	line = NULL;
 	str = NULL;
-	error = 0;
 	if (fd == -1)
 	{
-		error = 1;
-		write(2, "Map not fount\n", 14);
+		ft_putstr_fd("Error : Map not found\n", 2);
 		return (NULL);
 	}
-	*w = 0;
+	*w = -1;
 	*h = 0;
 	while (line == NULL || str != NULL)
 	{
 		str = get_next_line(fd);
-		if (*w == 0)
-			*w = ft_strlen(str);
-		if (str && (unsigned int)*w != ft_strlen(str))
-			error = 1;
-		if (str && !valid_map_line(str))
-			error = 1;
-		(*h)++;
 		ft_lstadd_back(&line, ft_lstnew(str));
+		error += verify_line(str, w, h);
+		(*h)++;
 	}
-	(*w)--;
-	(*h)--;
 	if (error)
-	{
-		write(2, "Map error", 9);
-		ft_lstclear(&line, free);
-		return (NULL);
-	}
+		return (ft_lstclear(&line, free), NULL);
 	close(fd);
-	return (fill_map_from_ber(line, *w, *h));
+	return (fill_map_from_ber(line, (*w), --(*h)));
 }

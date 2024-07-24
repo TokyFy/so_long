@@ -6,9 +6,11 @@
 /*   By: franaivo <franaivo@student.42antananarivo  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 14:46:13 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/23 15:16:32 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/24 13:14:37 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "engime.h"
 
 void	fill_ceil(int *ceil, char content)
 {
@@ -46,7 +48,10 @@ int	is_all_reachable(int rows, int cols, int **array)
 		while (j < cols)
 		{
 			if (array[i][j] > 1)
+			{
+				ft_putstr_fd("Error\n : Not all elements are reachable", 2);
 				return (0);
+			}
 			if (array[i][j] < 0)
 			{
 				array[i][j] += 9;
@@ -65,10 +70,7 @@ int	have_only_one_player_exit(int row, int cols, int **array)
 	int	p;
 	int	e;
 
-	i = 0;
-	j = 0;
-	p = 0;
-	e = 0;
+	init_zero(&i, &j, &p, &e);
 	while (i < row)
 	{
 		j = 0;
@@ -82,14 +84,20 @@ int	have_only_one_player_exit(int row, int cols, int **array)
 		}
 		i++;
 	}
-	return (p == 1 && e > 0);
+	if (p != 1)
+		ft_putstr_fd("Error : there should be one and only one Player\n", 2);
+	if (e != 1)
+		ft_putstr_fd("Error : there should be one and only one Exit\n", 2);
+	return (p == 1 && e == 1);
 }
 
 int	have_at_least_one_collectible(int row, int col, int **array)
 {
 	int	i;
 	int	j;
+	int	count_c;
 
+	count_c = 0;
 	i = 0;
 	j = 0;
 	while (i < row)
@@ -98,10 +106,12 @@ int	have_at_least_one_collectible(int row, int col, int **array)
 		while (j < col)
 		{
 			if (array[i][j] == 2)
-				return (1);
+				count_c++;
 			j++;
 		}
 		i++;
 	}
-	return (0);
+	if (count_c <= 0)
+		ft_putstr_fd("Error : There should be at least one Collectible \n", 2);
+	return (count_c > 0);
 }

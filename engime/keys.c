@@ -6,7 +6,7 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 09:03:26 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/23 15:35:53 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/24 12:58:19 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ int	on_key_down(int keycode, void *global)
 	int		y;
 
 	g = global;
+	if (keycode == 65307)
+		exit_game(global);
 	g->main_caracter->idle = 0;
 	move_player(keycode, g->main_caracter, &x, &y);
 	if (!check_collision(global, x, y))

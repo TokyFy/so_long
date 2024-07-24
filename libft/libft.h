@@ -6,7 +6,7 @@
 /*   By: franaivo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 13:23:43 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/08 10:22:01 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/24 09:46:50 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int						ft_isascii(int c);
 int						ft_isprint(int c);
 
 t_size_t				ft_strlen(const char *s);
+t_size_t ft_strlen_set(const char *s , const char *set);
 void					*ft_memset(void *byte, int c, t_size_t n);
 void					ft_bzero(void *s, unsigned int n);
 void					*ft_memcpy(void *dest, const void *src, t_size_t n);
