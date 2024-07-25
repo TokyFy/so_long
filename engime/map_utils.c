@@ -49,7 +49,7 @@ int	is_all_reachable(int rows, int cols, int **array)
 		{
 			if (array[i][j] > 1)
 			{
-				ft_putstr_fd("Error\n : Not all elements are reachable", 2);
+				ft_putstr_fd("Error : Not all elements are reachable\n", 2);
 				return (0);
 			}
 			if (array[i][j] < 0)

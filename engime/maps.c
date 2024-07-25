@@ -96,7 +96,10 @@ int	verify_line(char *str, int *w, int *h)
 	int	error;
 
 	error = 0;
-	(void)(h);
+	if(!str && *h == 0) {
+		ft_putstr_fd("Error : Void Maps\n" , 2);
+		return 1;
+	}
 	if (*w == -1)
 	{
 		*w = ft_strlen_set(str, "01PCE");

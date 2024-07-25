@@ -48,12 +48,14 @@ void	init_maps(t_state *global, char *ber_file)
 	int		**table;
 
 	worlds = malloc(sizeof(t_maps));
+	worlds->table = NULL;
 	global->worlds = worlds;
 	global->worlds->collect = 0;
 	table = ber_file_parser(ber_file, &worlds->w, &worlds->h);
 	if (!table)
 	{
 		free(worlds);
+		global->worlds = NULL;
 		exit_game(global);
 		return ;
 	}

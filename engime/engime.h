@@ -13,9 +13,9 @@
 #ifndef ENGIME_H
 # define ENGIME_H
 
+# include "../asset/src/assets.h"
 # include "../smlx/smlx.h"
 # include "../so_long.h"
-#include "../asset/src/assets.h"
 # include <fcntl.h>
 # include <stdint.h>
 # include <sys/time.h>

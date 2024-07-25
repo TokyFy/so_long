@@ -41,7 +41,7 @@ void	destroy_worlds(t_maps *worlds)
 
 	i = 0;
 	j = 0;
-	if (!worlds)
+	if (!worlds || !worlds->table)
 		return ;
 	while (i < worlds->h)
 	{

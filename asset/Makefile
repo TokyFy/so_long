@@ -1,4 +1,6 @@
-SOURCES = ./src/player_run.c ./src/player_idle.c
+SOURCES = ./src/player_run.c ./src/player_idle.c ./src/wall.c \
+		  ./src/wall_corner.c ./src/coins.c ./src/ground.c ./src/obstacle.c \
+		  ./src/obstacle_1.c  ./src/others.c
 
 CC = cc
 FLAGS = -g -Wall -Wextra -Werror

@@ -57,7 +57,7 @@ int				exit_game(t_state *global);
 void			init_player(t_state *global);
 void			init_global(t_state *global);
 void			init_windows(t_state *global);
-t_entity	*new_entity(int type, int x, int y);
+t_entity		*new_entity(int type, int x, int y);
 void			destroy_animation(t_animation *animation);
 void			destroy_entity(t_entity *entity);
 void			destroy_worlds(t_maps *worlds);

@@ -35,7 +35,7 @@ int	main(int argc, char *argv[])
 
 	if (argc != 2 || !valid_ber_filename(argv[1]))
 	{
-		write(2, "Map file required", 17);
+		write(2, "Error : Map file required\n", 17);
 		return (1);
 	}
 	srand(time(NULL));

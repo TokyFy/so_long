@@ -1,5 +1,5 @@
 SOURCES = ./collision.c ./fps.c ./frames.c ./keys.c ./maps.c ./utils.c ./worlds.c \
-					./map_utils.c ./map_validation.c ./init.c
+		./map_utils.c ./map_validation.c ./init.c ./frames_destroy.c ./frames_loader.c
 
 CC = cc
 FLAGS = -g -Wall -Wextra -Werror

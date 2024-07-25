@@ -36,6 +36,7 @@ clean:
 	$(MAKE) fclean -C ./smlx
 	$(MAKE) fclean -C ./libft
 	$(MAKE) fclean -C ./engime
+	$(MAKE) fclean -C ./asset
 	rm -f $(OBJS)
 
 fclean: clean
