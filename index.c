@@ -6,11 +6,12 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 13:15:29 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/23 15:27:06 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/26 11:19:34 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "engime/engime.h"
+#include "libft/libft.h"
 #include "so_long.h"
 
 int	valid_ber_filename(char *path)
@@ -35,7 +36,7 @@ int	main(int argc, char *argv[])
 
 	if (argc != 2 || !valid_ber_filename(argv[1]))
 	{
-		write(2, "Error : Map file required\n", 17);
+		ft_putstr_fd("Error : Map file required\n", 2);
 		return (1);
 	}
 	srand(time(NULL));

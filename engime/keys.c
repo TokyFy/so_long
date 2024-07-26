@@ -6,7 +6,7 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 09:03:26 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/24 12:58:19 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/26 11:08:51 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,21 +51,31 @@ void	move_player(int keycode, t_entity *player, int *x, int *y)
 	}
 }
 
+void	print_move(int move)
+{
+	ft_putstr_fd("Move : ", 1);
+	ft_putnbr_fd(move, 1);
+	ft_putstr_fd(" \n", 1);
+}
+
 int	on_key_down(int keycode, void *global)
 {
-	t_state	*g;
-	int		x;
-	int		y;
+	t_state		*g;
+	int			x;
+	int			y;
+	static int	move = 0;
 
 	g = global;
 	if (keycode == 65307)
-		exit_game(global);
+		exit_game(global, 0);
 	g->main_caracter->idle = 0;
 	move_player(keycode, g->main_caracter, &x, &y);
 	if (!check_collision(global, x, y))
 	{
+		move++;
 		g->main_caracter->x = x;
 		g->main_caracter->y = y;
+		print_move(move);
 	}
 	return (0);
 }

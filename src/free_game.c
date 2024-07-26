@@ -6,7 +6,7 @@
 /*   By: franaivo <franaivo@student.42antananarivo  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 15:23:05 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/23 15:25:49 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/26 11:04:49 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ void	free_global(t_state *global)
 	free(global->mlx_ptr);
 }
 
-int	exit_game(t_state *global)
+int	exit_game(t_state *global, int error)
 {
 	if (global)
 		free_global(global);
-	exit(1);
+	exit(error);
 }

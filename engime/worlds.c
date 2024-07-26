@@ -6,7 +6,7 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 09:00:43 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/24 14:32:14 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/26 11:09:23 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	init_maps(t_state *global, char *ber_file)
 	{
 		free(worlds);
 		global->worlds = NULL;
-		exit_game(global);
+		exit_game(global, 1);
 		return ;
 	}
 	fill_worlds(global, table, worlds);

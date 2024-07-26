@@ -6,7 +6,7 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 08:59:14 by franaivo          #+#    #+#             */
-/*   Updated: 2024/07/24 15:51:07 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/07/26 11:20:25 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ int	render_next_frame(void *global)
 		return (0);
 	if (g->winning)
 	{
-		exit_game(global);
+		ft_putstr_fd(">>>>>>> winning 🫠 <<<<<<<<!\n", 1);
+		exit_game(global, 0);
 		return (1);
 	}
 	updated_at = timestamp_in_ms();
