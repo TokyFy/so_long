@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: franaivo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: franaivo <franaivo@student.42antananarivo  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 08:47:07 by franaivo          #+#    #+#             */
 /*   Updated: 2024/07/08 10:20:59 by franaivo         ###   ########.fr       */
@@ -59,16 +59,17 @@ static void	*ft_free(char **strs, int count)
 	return (NULL);
 }
 
-void ft_free_split(char **strs)
+void	ft_free_split(char **strs)
 {
-  char **i = strs;
+	char	**i;
 
-  while (*i) {
-  	free(*i);
-  	i++;
-  }
-
-  free(strs);
+	i = strs;
+	while (*i)
+	{
+		free(*i);
+		i++;
+	}
+	free(strs);
 }
 
 static char	*fill_word(const char *str, int start, int end)

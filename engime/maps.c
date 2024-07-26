@@ -96,9 +96,10 @@ int	verify_line(char *str, int *w, int *h)
 	int	error;
 
 	error = 0;
-	if(!str && *h == 0) {
-		ft_putstr_fd("Error : Void Maps\n" , 2);
-		return 1;
+	if (!str && *h == 0)
+	{
+		ft_putstr_fd("Error : Void Maps\n", 2);
+		return (1);
 	}
 	if (*w == -1)
 	{

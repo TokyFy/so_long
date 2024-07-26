@@ -100,4 +100,3 @@ char	*get_next_line(int fd)
 	free(buffer);
 	return (extract_line(&block));
 }
-
